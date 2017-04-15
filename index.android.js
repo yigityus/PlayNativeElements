@@ -9,11 +9,18 @@ import {
   AppRegistry,
   StyleSheet,
   View,
-  Text
+  Text,
+  StatusBar
 } from 'react-native';
 import { Container, Content, H1 } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Dimensions, Platform } from 'react-native';
+import Seat from "./Seat";
+import SeatRow from "./SeatRow";
+import SeatMap from "./SeatMap";
+
+
+console.log('statusBarHeight: ', StatusBar.currentHeight);
 
 const { width, height } = Dimensions.get('window');
 const screenHeight = width < height ? height : width;
@@ -24,7 +31,11 @@ export default class PlayNativeElements extends Component {
 
 
   componentDidMount() {
-    const seatRows = [];
+
+  }
+
+  _seatMap() {
+    const seatMap = [];
     var seats = require('./seats.json');
 
     console.log(seats.seatMapRow.length);
@@ -34,70 +45,37 @@ export default class PlayNativeElements extends Component {
     console.log(rows.length);
 
     var row = '';
-    rows.forEach(function(column) {
+    rows.forEach(function (column) {
       seatCols = [];
-      column.cabinElement.forEach(function(cabin) {
+      column.cabinElement.forEach(function (cabin) {
         if (cabin.seat) {
-          row +=	cabin.seat.seatNumber + '-';
+          row += cabin.seat.seatNumber + '-';
           seatCols.push(cabin.seat.seatNumber);
         }
       })
-      seatRows.push(seatCols);
+      seatMap.push(seatCols);
       console.log(row);
       row = '';
     })
 
-    console.log(seatRows);
+    console.log(seatMap);
+
+    return seatMap;
   }
 
 
   render() {
+
+    const seatMap = this._seatMap();
+
     return (
           <Container>
             <Content>
-              <View style={{ backgroundColor: 'pink', flex: 1, height: screenHeight }} >
+              <View style={{ backgroundColor: 'pink', flex: 1, height: screenWidth - StatusBar.currentHeight , width:  screenHeight }} >
               <Grid>
-                <Col>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                </Col>
-                <Col>
-                  <View style={[styles.container, styles.selected]}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-                  <View style={styles.container}>
-                    <Text style={styles.welcome}>1</Text>
-                  </View>
-
-                </Col>
+                <Col size={1}></Col>
+                <Col size={3}></Col>
+                <Col size={1}><SeatMap seatMap={seatMap}/></Col>
               </Grid>
             </View>
             </Content>
