@@ -1,0 +1,3 @@
+rootProject.name = 'PlayNativeElements'
+
+include ':app'
