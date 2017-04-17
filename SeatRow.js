@@ -13,9 +13,15 @@ export default class SeatRow extends Component {
     let seatRows = [];
     let i = 0;
     this.props.columns.forEach( column => {
+      let seat = <Seat key={i++} seatNumber={column}/>;
+
+      if (column.substr(2,3)==='B') {
+        seat = null;
+      }
+
       seatRows.push(
           <Col key={i++}>
-            <Seat key={i++} seatNumber={column}/>
+            {seat}
           </Col>)
     })
 

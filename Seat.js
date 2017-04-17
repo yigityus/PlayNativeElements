@@ -7,22 +7,38 @@ import {
 } from 'react-native';
 
 export default class Seat extends Component {
+
+  constructor(props) {
+    super(props);
+
+    console.log(props.seatNumber.substr(0,2)%2);
+
+    let bg = 'blue';
+
+    if (props.seatNumber.substr(0,2)%2===0) {
+      bg = 'green'
+    }
+
+    this.state = {
+      backgroundColor: bg,
+    }
+  }
+
   render() {
+
     return (
-        <View style={styles.container} key={this.props.seatNumber}>
+        <View style={[styles.container, {backgroundColor: this.state.backgroundColor} ]} key={this.props.seatNumber}>
           <Text key={this.props.seatNumber} style={styles.welcome}></Text>
         </View>
     );
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'blue',
     margin: 2,
   },
   welcome: {
@@ -30,6 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    fontSize: 3,
   },
   instructions: {
     textAlign: 'center',
